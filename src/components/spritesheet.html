@@ -1,0 +1,56 @@
+<div class="wrapper wrapper-content animated fadeInRight" ng-controller="SpriteSheetCtrl">
+  <div class="row">
+    <div class="col-lg-12">
+      
+      <div class="ibox">
+        <div class="ibox-title">
+          <h5>Spritesheet Serializer for CreateJS</h5>
+        </div>
+        <div class="ibox-content">
+          <form class="form-horizontal" ng-submit="rebuild($event)">
+            <div class="form-group">
+              <label for="ipt_code" class="col-sm-2 control-label">JSON</label>
+              <div class="col-sm-10">
+                <textarea rows="10" id="ipt_code" class="form-control" ng-model="inputCode"></textarea>
+                <span class="help-block">Paste JSON content generated for <a href="http://createjs.com/" target="_blank">CreateJS <i class="fa fa-external-link"></i></a>.</span>
+              </div>
+            </div>
+            <div class="hr-line-dashed"></div>
+            <div class="form-group">
+              <label for="ipt_prefix" class="col-sm-2 control-label">Image Prefix</label>
+              <div class="col-sm-10">
+                <input type="text" id="ipt_prefix" class="form-control" ng-model="inputPrefix" />
+              </div>
+            </div>
+            <div class="hr-line-dashed"></div>
+            <div class="form-group">
+              <div class="col-sm-10 col-sm-offset-2">
+                <div class="checkbox">
+                  <input type="checkbox" id="ipt_format" ng-model="inputCompress">
+                  <label for="ipt_format"> Compress output code </label>
+                </div>
+              </div>
+            </div>
+            <div class="hr-line-dashed"></div>
+            <div class="form-group">
+              <div class="col-sm-4 col-sm-offset-2">
+                <button class="btn btn-primary" ng-disabled="waiting" autocomplete="off">GO</button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+      
+      <div class="ibox">
+        <div class="ibox-title">
+          <h5>Output</h5>
+        </div>
+        <div class="ibox-content">
+          <ui-codemirror ui-codemirror-opts="editorOptions" ng-model="outputCode">
+          </ui-codemirror>
+        </div>
+      </div>
+      
+    </div>
+  </div>
+</div>
