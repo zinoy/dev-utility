@@ -2,6 +2,7 @@ image: webdeskltd/gulp
 
 before_script:
   - npm install
+  - bower install
   
 stages:
   - build
