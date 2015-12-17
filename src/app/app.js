@@ -29,7 +29,27 @@ angular.module('inspinia', ['ngAnimate', 'ngCookies', 'ngTouch', 'ngSanitize', '
             templateUrl: "components/spritesheet.html",
             data: { pageTitle: 'Spritesheet Serializer' }
         })
-
+        .state('utils', {
+            abstract: true,
+            url: "/utils",
+            templateUrl: "components/common/content.html",
+        })
+        .state('utils.qrcode', {
+            url: "/qrcode",
+            templateUrl: "components/qrcode.html",
+            data: { pageTitle: 'QR Code Generator' }
+        })
+        .state('test', {
+            abstract: true,
+            url: "/test",
+            templateUrl: "components/common/content.html",
+        })
+        .state('test.buffer', {
+            url: "/buffer",
+            templateUrl: "components/buffer.html",
+            data: { pageTitle: 'Device Buffer Test' }
+        })
+;
     $urlRouterProvider.otherwise('/index/main');
   })
 ;

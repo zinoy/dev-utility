@@ -1,0 +1,18 @@
+image: webdeskltd/gulp
+
+before_script:
+  - npm install
+  
+stages:
+  - build
+  - test
+  - deploy
+  
+job1:
+  stage: build
+  script:
+    - gulp build
+  only:
+    - master
+  tags:
+    - docker

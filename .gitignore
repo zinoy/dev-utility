@@ -123,3 +123,6 @@ bower_components
 #Build directory
 dist/
 dev/
+
+#composer
+vendor/

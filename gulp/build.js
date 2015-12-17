@@ -80,6 +80,11 @@ gulp.task('fontawesome', function () {
      .pipe(gulp.dest(paths.dist + '/fonts/'));
 });
 
+gulp.task('php', function () {
+  return gulp.src([paths.src + '/php/**/*', '!composer.*'])
+    .pipe(gulp.dest(paths.dist + '/php/'));
+});
+
 gulp.task('misc', function () {
   return gulp.src(paths.src + '/**/*.ico')
     .pipe(gulp.dest(paths.dist + '/'));
@@ -89,4 +94,4 @@ gulp.task('clean', function (done) {
   $.del([paths.dist + '/', paths.tmp + '/'], done);
 });
 
-gulp.task('build', ['html', 'images', 'fonts', 'fontawesome', 'misc']);
+gulp.task('build', ['html', 'images', 'fonts', 'fontawesome', 'php', 'misc']);

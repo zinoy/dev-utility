@@ -7,12 +7,21 @@
           <h5>Spritesheet Serializer for CreateJS</h5>
         </div>
         <div class="ibox-content">
-          <form class="form-horizontal" ng-submit="rebuild($event)">
+          <form class="form-horizontal" name="form" ng-submit="rebuild($event)">
             <div class="form-group">
               <label for="ipt_code" class="col-sm-2 control-label">JSON</label>
               <div class="col-sm-10">
                 <textarea rows="10" id="ipt_code" class="form-control" ng-model="inputCode"></textarea>
-                <span class="help-block">Paste JSON content generated for <a href="http://createjs.com/" target="_blank">CreateJS <i class="fa fa-external-link"></i></a>.</span>
+                <span class="help-block"> Paste JSON content generated for <a href="http://createjs.com/" target="_blank">CreateJS <i class="fa fa-external-link"></i></a>. </span>
+              </div>
+            </div>
+            <div class="hr-line-dashed"></div>
+            <div class="form-group" ng-class="{ 'has-error' : !form.cn.$valid }">
+              <label for="ipt_class" class="col-sm-2 control-label">Class Name</label>
+              <div class="col-sm-10">
+                <input type="text" id="ipt_class" name="cn" class="form-control" autocomplete="false" ng-model="inputClass" pattern="^[a-zA-Z]\w+" />
+                <span class="help-block" ng-if="form.cn.$valid"> You can create Sprite object like <code>var obj = new ani.{{ inputClass || 'className'}}();</code> </span>
+                <span class="help-block" ng-if="!form.cn.$valid"> The class name must start with letter and at least 2 characters length. </span>
               </div>
             </div>
             <div class="hr-line-dashed"></div>
@@ -46,8 +55,7 @@
           <h5>Output</h5>
         </div>
         <div class="ibox-content">
-          <ui-codemirror ui-codemirror-opts="editorOptions" ng-model="outputCode">
-          </ui-codemirror>
+          <ui-codemirror ui-codemirror-opts="editorOptions" ng-model="outputCode"></ui-codemirror>
         </div>
       </div>
       

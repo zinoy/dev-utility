@@ -1,0 +1,8 @@
+{
+    "require": {
+        "kzykhys/ciconia": "~1.0.0",
+        "aferrandini/phpqrcode": "~1.0.0",
+        "spomky-labs/otphp": "~6.0.0",
+        "vohof/transmission": "1.0.*"
+    }
+}

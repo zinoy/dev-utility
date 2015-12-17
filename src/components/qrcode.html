@@ -1,0 +1,68 @@
+<div class="wrapper wrapper-content animated fadeInRight" ng-controller="QrCodeCtrl">
+  <div class="row">
+    <div class="col-lg-8">
+      
+      <div class="ibox">
+        <div class="ibox-title">
+          <h5>QR Code Generator</h5>
+        </div>
+        <div class="ibox-content">
+          <form class="form-horizontal" ng-submit="genCode($event)">
+            <div class="form-group">
+              <label for="ipt_code" class="col-sm-2 control-label">Data</label>
+              <div class="col-sm-6">
+                <textarea rows="2" id="ipt_code" class="form-control" ng-model="params.chl" required></textarea>
+              </div>
+            </div>
+            <div class="hr-line-dashed"></div>
+            <div class="form-group">
+              <label for="ipt_size" class="col-sm-2 control-label">Size</label>
+              <div class="col-sm-6">
+                <select class="form-control" id="ipt_size" ng-model="params.chs">
+                  <option value="3">Small</option>
+                  <option value="4">Normal</option>
+                  <option value="5">Big</option>
+                  <option value="6">Large</option>
+                  <option value="8">Extra Large</option>
+                </select>
+                <span class="help-block">The accurate size of QR is determined by data.</span>
+              </div>
+            </div>
+            <div class="hr-line-dashed"></div>
+            <div class="form-group">
+              <label for="ipt_level" class="col-sm-2 control-label"><abbr title="Error Correction">EC</abbr> Level</label>
+              <div class="col-sm-6">
+                <select class="form-control" id="ipt_level" ng-model="params.chld">
+                  <option value="L">L (7%)</option>
+                  <option value="M">M (15%)</option>
+                  <option value="Q">Q (25%)</option>
+                  <option value="H">H (30%)</option>
+                </select>
+                <span class="help-block">For add overlay icon, you should choose 15% or above to get better readability.</span>
+              </div>
+            </div>
+            <div class="hr-line-dashed"></div>
+            <div class="form-group">
+              <div class="col-sm-4 col-sm-offset-2">
+                <button class="btn btn-primary" ng-disabled="waiting" autocomplete="off">Generate</button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+      
+    </div>
+    <div class="col-lg-4">
+      <div class="ibox">
+        <div class="ibox-title">
+          <h5>Output</h5>
+        </div>
+        <div class="ibox-content">
+          <img ng-src="{{qrSrc}}" ng-if="qrSrc != ''" />
+        </div>
+      </div>
+      
+
+    </div>
+  </div>
+</div>
