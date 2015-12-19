@@ -1,4 +1,4 @@
-image: webdeskltd/gulp
+image: gulp:latest
 
 before_script:
   - npm install
@@ -12,6 +12,7 @@ job1:
   stage: build
   script:
     - gulp build
+    - ls dist
   only:
     - master
   tags:
@@ -20,4 +21,8 @@ job1:
 job2:
   stage: deploy
   script:
+  	- gulp build
     - ls dist
+    - "sshpass -p $REMOTE_PASSWORD scp -qr dist $REMOTE_URI:/mnt/vdc/web/hylinkers.com/demo/dev-utility"
+  tags:
+    - scp
