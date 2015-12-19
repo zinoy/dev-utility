@@ -9,7 +9,7 @@ job:
     - gulp build
     - ls dist
     - "echo $REMOTE_URI:/mnt/vdc/web/hylinkers.com/demo/dev-utility"
-    - "sshpass -p $REMOTE_PASSWORD scp -r dist $REMOTE_URI:/mnt/vdc/web/hylinkers.com/demo/dev-utility"
+    - 'sshpass -e scp -qr -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null dist $REMOTE_URI:/mnt/vdc/web/hylinkers.com/demo/dev-utility'
   only:
     - master
   tags:
