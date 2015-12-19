@@ -4,23 +4,13 @@ before_script:
   - npm install
   - bower install --allow-root
   
-stages:
-  - build
-  - deploy
-  
-job1:
-  stage: build
+job:
   script:
     - gulp build
     - ls dist
+    - "echo $REMOTE_URI:/mnt/vdc/web/hylinkers.com/demo/dev-utility"
+    - "sshpass -p $REMOTE_PASSWORD scp -r dist $REMOTE_URI:/mnt/vdc/web/hylinkers.com/demo/dev-utility"
   only:
     - master
   tags:
     - docker
-    
-job2:
-  stage: deploy
-  script:
-    - gulp build
-    - ls dist
-    - "sshpass -p $REMOTE_PASSWORD scp -qr dist $REMOTE_URI:/mnt/vdc/web/hylinkers.com/demo/dev-utility"
