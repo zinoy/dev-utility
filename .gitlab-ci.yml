@@ -21,7 +21,7 @@ job1:
 job2:
   stage: deploy
   script:
-  	- gulp build
+    - gulp build
     - ls dist
     - "sshpass -p $REMOTE_PASSWORD scp -qr dist $REMOTE_URI:/mnt/vdc/web/hylinkers.com/demo/dev-utility"
   tags:
