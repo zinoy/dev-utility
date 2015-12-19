@@ -3,14 +3,23 @@ image: gulp:latest
 before_script:
   - npm install
   - bower install --allow-root
-  
+
+stages:
+  - build
+  - deploy
+
 job:
+  stage: build
   script:
     - gulp build
-    - ls dist
-    - "echo $REMOTE_URI:/mnt/vdc/web/hylinkers.com/demo/dev-utility"
-    - 'sshpass -e scp -qr -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null dist $REMOTE_URI:/mnt/vdc/web/hylinkers.com/demo/dev-utility'
+    - mv dist dev-utility
+    - 'sshpass -e scp -qr -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null dev-utility $REMOTE_URI:/mnt/vdc/web/hylinkers.com/demo/dev-utility'
   only:
     - master
   tags:
     - docker
+
+test:
+  stage: deploy
+  script:
+    - ls
