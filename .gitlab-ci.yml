@@ -13,7 +13,7 @@ job:
   script:
     - gulp build
     - mv dist dev-utility
-    - 'sshpass -e scp -qr -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null dev-utility $REMOTE_URI:/mnt/vdc/web/hylinkers.com/demo/dev-utility'
+    - 'sshpass -e scp -qr -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null dev-utility $REMOTE_URI:~/web/hylinkers.com/demo'
   only:
     - master
   tags:
