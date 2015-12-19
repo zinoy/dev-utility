@@ -16,7 +16,7 @@ job1:
   only:
     - master
   tags:
-    - build
+    - docker
     
 job2:
   stage: deploy
@@ -24,5 +24,3 @@ job2:
     - gulp build
     - ls dist
     - "sshpass -p $REMOTE_PASSWORD scp -qr dist $REMOTE_URI:/mnt/vdc/web/hylinkers.com/demo/dev-utility"
-  tags:
-    - docker
