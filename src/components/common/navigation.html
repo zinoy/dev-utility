@@ -8,10 +8,19 @@
         </div>
         <div class="navbar-collapse collapse" id="navbar">
             <ul class="nav navbar-nav">
-                <li class="active">
-                    <a href="/" > Back to Home </a>
-
+                <li class="dropdown" uib-dropdown>
+                  <a class="dropdown-toggle" href uib-dropdown-toggle> Spritesheet Serializer <span class="caret"></span></a>
+                  <ul role="menu" class="dropdown-menu">
+                    <li ui-sref-active="active"><a ui-sref="spritesheet.createjs">CreateJS</a></li>
+                  </ul>
                 </li>
+                <li ui-sref-active="active">
+                    <a ui-sref="utils.qrcode" > QR Code Generator </a>
+                </li>
+                <li ui-sref-active="active">
+                    <a ui-sref="test.buffer" > Buffer Test </a>
+                </li>
+                
 
             </ul>
         </div>
