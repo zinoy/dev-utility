@@ -47,7 +47,7 @@ gulp.task('html', ['inject', 'partials'], function () {
     .pipe(jsFilter.restore())
     .pipe(cssFilter)
     .pipe($.replace('../bootstrap/fonts', 'fonts'))
-    .pipe($.csso())
+    //.pipe($.csso())
     .pipe(cssFilter.restore())
     .pipe(assets.restore())
     .pipe($.useref())

@@ -1,4 +1,4 @@
-image: gulp:latest
+image: webdeskltd/gulp:latest
 
 before_script:
   - npm install
@@ -6,20 +6,13 @@ before_script:
 
 stages:
   - build
-  - deploy
 
 job:
   stage: build
   script:
     - gulp build
-    - mv dist dev-utility
-    - 'sshpass -e scp -qr -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null dev-utility $REMOTE_URI:~/web/hylinkers.com/demo'
+    - 'rsync -vre ssh ./dist/ $REMOTE_URI:~/web/hylinkers.com/demo/dev-utility'
   only:
     - master
   tags:
     - docker
-
-test:
-  stage: deploy
-  script:
-    - ls
