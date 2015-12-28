@@ -6,14 +6,29 @@ before_script:
 
 stages:
   - build
+  - deploy
 
-job:
+cache:
+  paths:
+    - node_modules/
+
+job1:
   stage: build
   script:
     - gulp build
-    - 'rsync -vre ssh ./dist/ $REMOTE_URI:~/web/hylinkers.com/demo/dev-utility'
-    - 'rsync -vre ssh ./dist/ $LINODE_URI:/var/www/dev-utility'
   only:
     - master
   tags:
     - docker
+  artifacts:
+    paths:
+      - dist/
+  cache:
+    paths:
+    - dist/
+
+job2:
+  stage: deploy
+  script:
+    - 'rsync -vre ssh ./dist/ $REMOTE_URI:~/web/hylinkers.com/demo/dev-utility'
+    - 'rsync -vre "ssh -p $LINODE_PORT" ./dist/ $LINODE_URI:/var/www/dev-utility'
