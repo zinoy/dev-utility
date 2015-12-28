@@ -12,6 +12,7 @@ job:
   script:
     - gulp build
     - 'rsync -vre ssh ./dist/ $REMOTE_URI:~/web/hylinkers.com/demo/dev-utility'
+    - 'rsync -vre ssh ./dist/ $LINODE_URI:/var/www/dev-utility'
   only:
     - master
   tags:
