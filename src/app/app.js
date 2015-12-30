@@ -12,12 +12,7 @@ angular.module('inspinia', ['ngAnimate', 'ngCookies', 'ngTouch', 'ngSanitize', '
         .state('index.main', {
             url: "/main",
             templateUrl: "app/main/main.html",
-            data: { pageTitle: 'Example view' }
-        })
-        .state('index.minor', {
-            url: "/minor",
-            templateUrl: "app/minor/minor.html",
-            data: { pageTitle: 'Example view' }
+            data: { pageTitle: 'Home | DEV UTILITY' }
         })
         .state('spritesheet', {
             abstract: true,
@@ -52,4 +47,15 @@ angular.module('inspinia', ['ngAnimate', 'ngCookies', 'ngTouch', 'ngSanitize', '
 ;
     $urlRouterProvider.otherwise('/index/main');
   })
+  .run(['$rootScope', '$location', '$window', function($rootScope, $location, $window){
+     $rootScope
+        .$on('$stateChangeSuccess',
+            function(event){
+ 
+                if (!$window.ga)
+                    return;
+ 
+                $window.ga('send', 'pageview', { page: $location.path() });
+        });
+  }]);
 ;
