@@ -12,7 +12,7 @@ job:
   script:
     - gulp build
     - 'rsync -vre ssh ./dist/ $REMOTE_URI:~/web/hylinkers.com/demo/dev-utility'
-    - 'rsync -vre "ssh -p $LINODE_PORT" ./dist/ $LINODE_URI:/var/www/dev-utility'
+    - 'rsync -vre "ssh -p $LINODE_PORT" --delete ./dist/ $LINODE_URI:/var/www/dev-utility'
   only:
     - master
   tags:
