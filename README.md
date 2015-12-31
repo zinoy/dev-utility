@@ -15,17 +15,17 @@ Theme designed by [INSPINIA](https://wrapbootstrap.com/theme/inspinia-responsive
 Getting Started
 ---
 
-###1. Install Node.js
+### 1. Install Node.js
 
 [Download](https://nodejs.org/en/download/)
 
-###2. Install gulp globally
+### 2. Install gulp globally
 
 ```sh
 $ npm install --global gulp
 ```
 
-###3. Install dependence packages
+### 3. Install dependence packages
 
 ```sh
 $ npm install
@@ -38,7 +38,7 @@ $ npm install -g cnpm --registry=https://registry.npm.taobao.org
 $ cnpm install
 ```
 
-###3. Start test server
+### 4. Start test server
 
 ```sh
 $ gulp serve
