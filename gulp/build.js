@@ -48,7 +48,7 @@ gulp.task('html', ['inject', 'partials'], function () {
     .pipe(cssFilter)
     .pipe($.replace('../../bower_components/bootstrap/fonts', '../fonts/'))
     .pipe($.replace('../../bower_components/fontawesome/fonts', '../fonts/'))
-    .pipe($.csso())
+    //.pipe($.csso())
     .pipe(cssFilter.restore())
     .pipe(assets.restore())
     .pipe($.useref())
@@ -81,6 +81,11 @@ gulp.task('fontawesome', function () {
      .pipe(gulp.dest(paths.dist + '/fonts/'));
 });
 
+gulp.task('php', function () {
+  return gulp.src([paths.src + '/php/**/*', '!composer.*'])
+    .pipe(gulp.dest(paths.dist + '/php/'));
+});
+
 gulp.task('bootstrapfonts', function () {
   return gulp.src('bower_components/bootstrap/fonts/*.{eot,svg,ttf,woff,woff2}')
     .pipe(gulp.dest(paths.dist + '/fonts/'));
@@ -96,4 +101,4 @@ gulp.task('clean', function (done) {
 });
 
 
-gulp.task('build', ['html', 'images', 'fonts', 'fontawesome','bootstrapfonts','misc']);
+gulp.task('build', ['html', 'images', 'fonts', 'fontawesome','bootstrapfonts', 'php','misc']);
