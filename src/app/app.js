@@ -12,7 +12,7 @@ angular.module('inspinia', ['ngAnimate', 'ngCookies', 'ngTouch', 'ngSanitize', '
         .state('index.main', {
             url: "/main",
             templateUrl: "app/main/main.html",
-            data: { pageTitle: 'DEV UTILITY' }
+            data: { pageTitle: 'Home | DEV UTILITY' }
         })
         .state('spritesheet', {
             abstract: true,
