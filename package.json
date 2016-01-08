@@ -1,6 +1,6 @@
 {
   "name": "dev-utility",
-  "version": "0.0.2",
+  "version": "0.0.4",
   "description": "Utilities for Development",
   "author": "Zino",
   "main": "index.js",
@@ -42,14 +42,10 @@
     "protractor": "~1.4.0",
     "uglify-save-license": "~0.4.1"
   },
-  "scripts": {
-    "test": "gulp test"
-  },
   "repository": {
     "type": "git",
-    "url": ""
+    "url": "http://git.wlash.com/zino/dev-utility"
   },
-  "license": "ISC",
   "engines": {
     "node": ">=0.10.0"
   }

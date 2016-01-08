@@ -45,8 +45,8 @@ angular.module('inspinia')
                         angular.element('#side-menu').hide();
                         // For smoothly turn on menu
                         $timeout(function () {
-                            angular.element('#side-menu').fadeIn(500);
-                        }, 100);
+                            angular.element('#side-menu').fadeIn(400);
+                        }, 200);
                     } else {
                         // Remove all inline style from jquery fadeIn function to reset menu state
                         angular.element('#side-menu').removeAttr('style');
