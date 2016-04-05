@@ -12,6 +12,8 @@ angular.module('inspinia').controller('SpriteSheetCtrl', function($scope, $filte
     $scope.inputCode = "";
     $scope.inputClass = "";
     $scope.inputPrefix = "";
+    $scope.inputDefault = false;
+    $scope.inputAnimation = "loop";
     $scope.inputCompress = true;
     $scope.outputCode = "//output here";
 
@@ -28,63 +30,52 @@ angular.module('inspinia').controller('SpriteSheetCtrl', function($scope, $filte
         if (data.animations) {
 
             var prefix = false, ps = 0;
-            var tl = [], multi = false, fn = [];
-            var start_index = 0;
+            var tl = [], frame_num = [];
 
-            for (var k in data.animations) {
-                var ani = data.animations[k];
-                if (ani.length > 1) {
-                    multi = true;
-                    for (var i = 0; i < ani.length; i++) {
-                        tl.push(data.frames[ani[i]]);
+            angular.forEach(data.animations, function(value, key) {
+                if (value.length > 1) {
+                    for (var i = 0; i < value.length; i++) {
+                        tl.push(data.frames[value[i]]);
                     }
-                    delete data.animations[k];
-                } else if (/\d+$/.test(k)) {
-                    var match = k.match(/\d+$/);
-                    if (!prefix) {
+                    delete data.animations[key];
+                } else {
+                    var match = key.match(/\d+$/);
+                    if (prefix !== "" && !prefix) {
                         ps = match[0].length;
-                        prefix = k.replace(/\d+$/, '');
+                        prefix = key.replace(/\d+$/, '');
                     }
-                    fn.push(Number(match[0]));
+                    var tps = ps;
+                    ps = match[0].length;
+                    if (tps != ps) {
+                        ps = 0;
+                    }
+                    frame_num.push(Number(match[0]));
                 }
-            }
-            if (!multi) {
-                start_index = $filter('orderBy')(fn, '+')[0];
-            }
+            });
+            frame_num.sort(function compareNumbers(a, b) {
+                return a - b;
+            });
 
-            if (prefix) {
-                var idx = start_index;
+            if (frame_num.length > 0) {
+                var idx = 0;
                 var it;
-                while ( it = data.animations[prefix + pad(idx++, ps)]) {
+                while ( it = data.animations[prefix + pad(frame_num[idx++], ps)]) {
                     tl.push(data.frames[it[0]]);
-                }
-                data.frames = tl;
-                for (var key in data.animations) {
-                    if (data.animations.hasOwnProperty(key)) {
-                        var reg = new RegExp(prefix + "\\d+$");
-                        if (reg.test(key)) {
-                            delete data.animations[key];
-                        }
-                    }
-                }
-
-                if (data.stop) {
-                    var ef = idx - 2;
-                    data.animations.stop = ef;
-                    data.animations.timeline = [0, ef - 1, "stop"];
-                }
-            } else {
-                for (var k in data.animations) {
-                    var ani = data.animations[k];
-                    for (var i = 0; i < ani.length; i++) {
-                        tl.push(data.frames[ani[i]]);
-                    }
-                    delete data.animations[k];
+                    delete data.animations[prefix + pad(frame_num[idx - 1], ps)];
                 }
                 data.frames = tl;
             }
         }
 
+        if ($scope.inputDefault) {
+            if ($scope.inputAnimation == "loop") {
+                data.animations.default = [0, idx - 2];
+            } else if ($scope.inputAnimation == "one" || data.stop) {
+                var ef = idx - 2;
+                data.animations.stop = ef;
+                data.animations.default = [0, ef - 1, "stop"];
+            }
+        }
         if ($scope.inputClass) {
             data.name = $scope.inputClass;
         }
