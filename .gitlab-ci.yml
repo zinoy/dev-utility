@@ -11,7 +11,6 @@ job:
   stage: build
   script:
     - gulp build
-    - 'rsync -vre ssh ./dist/ $REMOTE_URI:~/web/hylinkers.com/demo/dev-utility'
     - 'rsync -vre "ssh -p $LINODE_PORT" --delete --exclude="vendor" ./dist/ $LINODE_URI:/var/www/dev-utility'
   only:
     - master

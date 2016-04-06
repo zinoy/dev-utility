@@ -40,11 +40,11 @@
                   <label for="ipt_default"> Enable </label>
                 </div>
                 <hr ng-if="inputDefault" />
-                <div class="radio radio-inline" ng-if="inputDefault">
+                <div class="radio radio-inline" ng-show="inputDefault">
                   <input type="radio" id="ipt_loop" value="loop" ng-model="inputAnimation">
                   <label for="ipt_loop"> Loop </label>
                 </div>
-                <div class="radio radio-inline" ng-if="inputDefault">
+                <div class="radio radio-inline" ng-show="inputDefault">
                   <input type="radio" id="ipt_one" value="one" ng-model="inputAnimation">
                   <label for="ipt_one"> One Time </label>
                 </div>

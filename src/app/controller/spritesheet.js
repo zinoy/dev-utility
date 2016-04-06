@@ -72,8 +72,8 @@ angular.module('inspinia').controller('SpriteSheetCtrl', function($scope, $filte
                 data.animations.default = [0, idx - 2];
             } else if ($scope.inputAnimation == "one" || data.stop) {
                 var ef = idx - 2;
-                data.animations.stop = ef;
                 data.animations.default = [0, ef - 1, "stop"];
+                data.animations.stop = ef;
             }
         }
         if ($scope.inputClass) {

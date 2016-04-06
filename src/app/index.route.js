@@ -1,13 +1,18 @@
-'use strict';
+(function() {
+  'use strict';
 
-angular.module('inspinia', ['ngAnimate', 'ngCookies', 'ngTouch', 'ngSanitize', 'ngResource', 'ui.router', 'ui.bootstrap', 'ui.codemirror'])
-  .config(function ($stateProvider, $urlRouterProvider) {
+  angular
+    .module('inspinia')
+    .config(routerConfig);
+
+  /** @ngInject */
+  function routerConfig($stateProvider, $urlRouterProvider) {
     $stateProvider
 
         .state('index', {
             abstract: true,
             url: "/index",
-            templateUrl: "components/common/content.html"
+            templateUrl: "app/components/common/content.html"
         })
         .state('index.main', {
             url: "/main",
@@ -17,34 +22,36 @@ angular.module('inspinia', ['ngAnimate', 'ngCookies', 'ngTouch', 'ngSanitize', '
         .state('spritesheet', {
             abstract: true,
             url: "/spritesheet",
-            templateUrl: "components/common/content.html"
+            templateUrl: "app/components/common/content.html"
         })
         .state('spritesheet.createjs', {
             url: "/createjs",
-            templateUrl: "components/spritesheet.html",
+            templateUrl: "app/components/spritesheet.html",
             data: { pageTitle: 'Spritesheet Serializer' }
         })
         .state('utils', {
             abstract: true,
             url: "/utils",
-            templateUrl: "components/common/content.html"
+            templateUrl: "app/components/common/content.html"
         })
         .state('utils.qrcode', {
             url: "/qrcode",
-            templateUrl: "components/qrcode.html",
+            templateUrl: "app/components/qrcode.html",
             data: { pageTitle: 'QR Code Generator' }
         })
         .state('test', {
             abstract: true,
             url: "/test",
-            templateUrl: "components/common/content.html"
+            templateUrl: "app/components/common/content.html"
         })
         .state('test.buffer', {
             url: "/buffer",
-            templateUrl: "components/buffer.html",
+            templateUrl: "app/components/buffer.html",
             data: { pageTitle: 'Device Buffer Test' }
         })
 ;
+
     $urlRouterProvider.otherwise('/index/main');
-  })
-;
+  }
+
+})();

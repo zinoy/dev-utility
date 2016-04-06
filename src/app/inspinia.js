@@ -1,56 +1,65 @@
 /**
  * INSPINIA - Responsive Admin Theme
- * 2.4
+ * 2.5
  *
  * Custom scripts
  */
 
-$(document).ready(function () {
+angular.element(document).ready(function ($timeout) {
 
 
-  // Full height
+  // Full height of sidebar
   function fix_height() {
-    var heightWithoutNavbar = $("body > #wrapper").height() - 61;
-    $(".sidebard-panel").css("min-height", heightWithoutNavbar + "px");
+    var heightWithoutNavbar = angular.element("body > #wrapper").height() - 61;
+    angular.element(".sidebard-panel").css("min-height", heightWithoutNavbar + "px");
 
-    var navbarHeigh = $('nav.navbar-default').height();
-    var wrapperHeigh = $('#page-wrapper').height();
+    var navbarHeigh = angular.element('nav.navbar-default').height();
+    var wrapperHeigh = angular.element('#page-wrapper').height();
 
-    if (navbarHeigh > wrapperHeigh) {
-      $('#page-wrapper').css("min-height", navbarHeigh + "px");
+    if(navbarHeigh > wrapperHeigh){
+      angular.element('#page-wrapper').css("min-height", navbarHeigh + "px");
     }
 
-    if (navbarHeigh < wrapperHeigh) {
-      $('#page-wrapper').css("min-height", $(window).height() + "px");
+    if(navbarHeigh < wrapperHeigh){
+      angular.element('#page-wrapper').css("min-height", angular.element(window).height()  + "px");
     }
 
-    if ($('body').hasClass('fixed-nav')) {
+    if (angular.element('body').hasClass('fixed-nav')) {
       if (navbarHeigh > wrapperHeigh) {
-        $('#page-wrapper').css("min-height", navbarHeigh - 60 + "px");
+        angular.element('#page-wrapper').css("min-height", navbarHeigh - 60 + "px");
       } else {
-        $('#page-wrapper').css("min-height", $(window).height() - 60 + "px");
+        angular.element('#page-wrapper').css("min-height", angular.element(window).height() - 60 + "px");
       }
     }
+
   }
 
-  $(window).bind("load resize scroll", function () {
-    if (!$("body").hasClass('body-small')) {
+  angular.element(window).bind("load resize scroll", function() {
+    if(!angular.element("body").hasClass('body-small')) {
       fix_height();
     }
-  })
+  });
 
-  setTimeout(function () {
-    fix_height();
-  })
-});
-
-// Minimalize menu when screen is less than 768px
-$(function () {
-  $(window).bind("load resize", function () {
-    if ($(this).width() < 769) {
-      $('body').addClass('body-small')
+  // Move right sidebar top after scroll
+  angular.element(window).scroll(function(){
+    if (angular.element(window).scrollTop() > 0 && !angular.element('body').hasClass('fixed-nav') ) {
+      angular.element('#right-sidebar').addClass('sidebar-top');
     } else {
-      $('body').removeClass('body-small')
+      angular.element('#right-sidebar').removeClass('sidebar-top');
+    }
+  });
+
+  $timeout(function(){
+    fix_height();
+  });
+
+  // Minimalize menu when screen is less than 768px
+  angular.element(window).bind("load resize", function() {
+    if (angular.element(document).width() < 769) {
+      angular.element('body').addClass('body-small')
+    } else {
+      angular.element('body').removeClass('body-small')
     }
   })
+
 });
