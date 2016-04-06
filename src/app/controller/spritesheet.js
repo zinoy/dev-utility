@@ -17,6 +17,9 @@ angular.module('inspinia').controller('SpriteSheetCtrl', function($scope, $filte
     $scope.inputCompress = true;
     $scope.outputCode = "//output here";
 
+    $scope.iboxTools = {
+    };
+
     $scope.rebuild = function(e) {
         e.preventDefault();
         var data;
@@ -67,14 +70,12 @@ angular.module('inspinia').controller('SpriteSheetCtrl', function($scope, $filte
             }
         }
 
-        if ($scope.inputDefault) {
-            if ($scope.inputAnimation == "loop") {
-                data.animations.default = [0, idx - 2];
-            } else if ($scope.inputAnimation == "one" || data.stop) {
-                var ef = idx - 2;
-                data.animations.default = [0, ef - 1, "stop"];
-                data.animations.stop = ef;
-            }
+        if ($scope.inputDefault && $scope.inputAnimation == "loop") {
+            data.animations.default = [0, idx - 2];
+        } else if (($scope.inputDefault && $scope.inputAnimation == "once") || data.stop) {
+            var ef = idx - 2;
+            data.animations.default = [0, ef - 1, "stop"];
+            data.animations.stop = [ef];
         }
         if ($scope.inputClass) {
             data.name = $scope.inputClass;
@@ -93,6 +94,8 @@ angular.module('inspinia').controller('SpriteSheetCtrl', function($scope, $filte
         } else {
             $scope.outputCode = JSON.stringify(data, null, 4);
         }
+
+        $scope.iboxTools.showhide();
     };
 
     function pad(num, size) {

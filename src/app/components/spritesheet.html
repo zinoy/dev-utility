@@ -5,6 +5,7 @@
       <div class="ibox">
         <div class="ibox-title">
           <h5>Spritesheet Serializer for CreateJS</h5>
+          <div ibox-tools control="iboxTools"></div>
         </div>
         <div class="ibox-content">
           <form class="form-horizontal" name="form" ng-submit="rebuild($event)">
@@ -20,7 +21,7 @@
               <label for="ipt_class" class="col-sm-2 control-label">Class Name</label>
               <div class="col-sm-10">
                 <input type="text" id="ipt_class" name="cn" class="form-control" autocomplete="false" ng-model="inputClass" pattern="^[a-zA-Z]\w+" />
-                <span class="help-block" ng-if="form.cn.$valid"> You can create Sprite object like <code>var obj = new ani.{{ inputClass || 'className'}}();</code> </span>
+                <span class="help-block" ng-if="form.cn.$valid"> Include <a href="http://git.wlash.com/snippets/3" target="_blank">animate.js <i class="fa fa-external-link"></i></a> file in your project, and initialize object using <code>genAni(jsonData);</code> when JSON file has been loaded. Then, you may create Sprite instance using <code>var sprite = new ani.{{ inputClass || 'className'}}();</code>. </span>
                 <span class="help-block" ng-if="!form.cn.$valid"> The class name must start with letter and at least 2 characters length. </span>
               </div>
             </div>
@@ -45,8 +46,8 @@
                   <label for="ipt_loop"> Loop </label>
                 </div>
                 <div class="radio radio-inline" ng-show="inputDefault">
-                  <input type="radio" id="ipt_one" value="one" ng-model="inputAnimation">
-                  <label for="ipt_one"> One Time </label>
+                  <input type="radio" id="ipt_once" value="once" ng-model="inputAnimation">
+                  <label for="ipt_once"> Once </label>
                 </div>
               </div>
             </div>
