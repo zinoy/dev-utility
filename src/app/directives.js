@@ -95,10 +95,10 @@ angular.module('inspinia')
     .directive('dragNDrop', ['dragDrop', function dragNDrop(dragDrop) {
         return {
             restrict: 'A',
-            controller: function($scope, $element) {
+            link: function(scope, element, attrs) {
                 if (dragDrop) {
-                    $element.addClass('drop_enabled');
-                    $element.on('drag dragstart dragend dragover dragenter dragleave drop', function(e) {
+                    element.addClass('drop_enabled');
+                    element.on('drag dragstart dragend dragover dragenter dragleave drop', function(e) {
                         e.preventDefault();
                         e.stopPropagation();
                     }).on('dragover dragenter', function() {
@@ -112,12 +112,12 @@ angular.module('inspinia')
                             if (/text/.test(f.type) || /\.json$/.test(f.name)) {
                                 var reader = new FileReader();
                                 reader.onload = function(e) {
-                                    $scope.inputCode = this.result;
-                                    $scope.$apply();
+                                    if(attrs.ngModel){
+                                        scope[attrs.ngModel] = this.result;
+                                        scope.$apply();
+                                    }
                                 };
                                 reader.readAsText(f);
-                            } else {
-                                
                             }
                         }
                     });
