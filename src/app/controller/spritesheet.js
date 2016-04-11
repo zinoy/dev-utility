@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('inspinia').controller('SpriteSheetCtrl', function($scope, $filter) {
+angular.module('inspinia').controller('SpriteSheetCtrl', ['$scope', '$filter', 'dragDrop', function($scope, $filter, dragDrop) {
 
     $scope.editorOptions = {
         mode: "application/json",
@@ -19,6 +19,8 @@ angular.module('inspinia').controller('SpriteSheetCtrl', function($scope, $filte
 
     $scope.iboxTools = {
     };
+    
+    $scope.dragDrop = dragDrop;
 
     $scope.rebuild = function(e) {
         e.preventDefault();
@@ -98,9 +100,14 @@ angular.module('inspinia').controller('SpriteSheetCtrl', function($scope, $filte
         $scope.iboxTools.showhide();
     };
 
+    function isAdvancedUpload() {
+        var div = document.createElement('div');
+        return (('draggable' in div) || ('ondragstart' in div && 'ondrop' in div)) && 'FormData' in window && 'FileReader' in window;
+    }
+
     function pad(num, size) {
         var s = "000000000" + num;
         return s.substr(s.length - size);
     }
 
-});
+}]);

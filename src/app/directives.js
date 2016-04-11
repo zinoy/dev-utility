@@ -91,6 +91,43 @@ angular.module('inspinia')
                 i.showhide = scope.showhide;
             }
         };
+    })
+    .directive('dragNDrop', ['dragDrop', function dragNDrop(dragDrop) {
+        return {
+            restrict: 'A',
+            controller: function($scope, $element) {
+                if (dragDrop) {
+                    $element.addClass('drop_enabled');
+                    $element.on('drag dragstart dragend dragover dragenter dragleave drop', function(e) {
+                        e.preventDefault();
+                        e.stopPropagation();
+                    }).on('dragover dragenter', function() {
+                        $(this).addClass('is-dragover');
+                    }).on('dragleave dragend drop', function() {
+                        $(this).removeClass('is-dragover');
+                    }).on('drop', function(e) {
+                        var files = e.originalEvent.dataTransfer.files;
+                        if (files.length > 0) {
+                            var f = files[0];
+                            if (/text/.test(f.type) || /\.json$/.test(f.name)) {
+                                var reader = new FileReader();
+                                reader.onload = function(e) {
+                                    $scope.inputCode = this.result;
+                                    $scope.$apply();
+                                };
+                                reader.readAsText(f);
+                            } else {
+                                
+                            }
+                        }
+                    });
+                }
+            }
+        };
+    }])
+    .factory('dragDrop', function() {
+        var div = document.createElement('div');
+        return (('draggable' in div) || ('ondragstart' in div && 'ondrop' in div)) && 'FormData' in window && 'FileReader' in window;
     });
 
 
