@@ -72,7 +72,11 @@ function($scope, $filter, dragDrop) {
                 var it,
                     ani = [];
                 while ( it = data.animations[prefix + pad(frame_num[idx++], ps)]) {
-                    var id = (it.frames && it.frames[0]) || it[0];
+                    var id = it[0];
+                    if (id == null) {
+                        id = it.frames[0];
+                    }
+
                     tl.push(data.frames[id]);
                     delete data.animations[prefix + pad(frame_num[idx - 1], ps)];
                     ani.push(idx - 1);
