@@ -1,13 +1,14 @@
 'use strict';
 
-angular.module('inspinia').controller('SpriteSheetCtrl', ['$scope', '$filter', 'dragDrop', function($scope, $filter, dragDrop) {
+angular.module('inspinia').controller('SpriteSheetCtrl', ['$scope', '$filter', 'dragDrop',
+function($scope, $filter, dragDrop) {
 
     $scope.editorOptions = {
-        mode: "application/json",
-        lineNumbers: true,
-        matchBrackets: true,
-        readOnly: true,
-        styleActiveLine: true
+        mode : "application/json",
+        lineNumbers : true,
+        matchBrackets : true,
+        readOnly : true,
+        styleActiveLine : true
     };
     $scope.inputCode = "";
     $scope.inputClass = "";
@@ -19,7 +20,7 @@ angular.module('inspinia').controller('SpriteSheetCtrl', ['$scope', '$filter', '
 
     $scope.iboxTools = {
     };
-    
+
     $scope.dragDrop = dragDrop;
 
     $scope.rebuild = function(e) {
@@ -34,10 +35,15 @@ angular.module('inspinia').controller('SpriteSheetCtrl', ['$scope', '$filter', '
         //console.log(data);
         if (data.animations) {
 
-            var prefix = false, ps = 0;
-            var tl = [], frame_num = [];
+            var prefix = false,
+                ps = 0;
+            var tl = [],
+                frame_num = [];
 
             angular.forEach(data.animations, function(value, key) {
+                if (!$.isArray(value)) {
+                    value = value.frames;
+                }
                 if (value.length > 1) {
                     for (var i = 0; i < value.length; i++) {
                         tl.push(data.frames[value[i]]);
@@ -63,12 +69,18 @@ angular.module('inspinia').controller('SpriteSheetCtrl', ['$scope', '$filter', '
 
             if (frame_num.length > 0) {
                 var idx = 0;
-                var it;
+                var it,
+                    ani = [];
                 while ( it = data.animations[prefix + pad(frame_num[idx++], ps)]) {
-                    tl.push(data.frames[it[0]]);
+                    var id = (it.frames && it.frames[0]) || it[0];
+                    tl.push(data.frames[id]);
                     delete data.animations[prefix + pad(frame_num[idx - 1], ps)];
+                    ani.push(idx - 1);
                 }
                 data.frames = tl;
+                data.animations[prefix] = {
+                    frames : ani
+                };
             }
         }
 
