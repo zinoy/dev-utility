@@ -87,7 +87,7 @@ function($scope, $filter, dragDrop) {
                     frames: ani
                 };
             } else {
-                idx = tl.length;
+                idx = tl.length + 1;
                 data.frames = tl;
             }
         }
