@@ -4,11 +4,11 @@ angular.module('inspinia').controller('SpriteSheetCtrl', ['$scope', '$filter', '
 function($scope, $filter, dragDrop) {
 
     $scope.editorOptions = {
-        mode : "application/json",
-        lineNumbers : true,
-        matchBrackets : true,
-        readOnly : true,
-        styleActiveLine : true
+        mode: "application/json",
+        lineNumbers: true,
+        matchBrackets: true,
+        readOnly: true,
+        styleActiveLine: true
     };
     $scope.inputCode = "";
     $scope.inputClass = "";
@@ -41,6 +41,7 @@ function($scope, $filter, dragDrop) {
                 frame_num = [];
 
             angular.forEach(data.animations, function(value, key) {
+                tl = [];
                 if (!$.isArray(value)) {
                     value = value.frames;
                 }
@@ -48,7 +49,7 @@ function($scope, $filter, dragDrop) {
                     for (var i = 0; i < value.length; i++) {
                         tl.push(data.frames[value[i]]);
                     }
-                    delete data.animations[key];
+                    data.animations[key] = [0, tl.length - 1];
                 } else {
                     var match = key.match(/\d+$/);
                     if (prefix !== "" && !prefix) {
@@ -67,8 +68,8 @@ function($scope, $filter, dragDrop) {
                 return a - b;
             });
 
+            var idx = 0;
             if (frame_num.length > 0) {
-                var idx = 0;
                 var it,
                     ani = [];
                 while ( it = data.animations[prefix + pad(frame_num[idx++], ps)]) {
@@ -83,8 +84,11 @@ function($scope, $filter, dragDrop) {
                 }
                 data.frames = tl;
                 data.animations[prefix] = {
-                    frames : ani
+                    frames: ani
                 };
+            } else {
+                idx = tl.length;
+                data.frames = tl;
             }
         }
 
