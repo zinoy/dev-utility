@@ -23,10 +23,13 @@ job1:
       - dist/
   cache:
     paths:
-    - dist/
+      - node_modules/
+      - dist/
 
 job2:
   stage: deploy
   script:
     - 'rsync -vre ssh ./dist/ $REMOTE_URI:~/web/hylinkers.com/demo/dev-utility'
     - 'rsync -vre "ssh -p $LINODE_PORT" --delete --exclude="vendor" ./dist/ $LINODE_URI:/var/www/dev-utility'
+  tags:
+    - docker
