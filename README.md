@@ -1,7 +1,7 @@
 Utilities for Development
 ===
 
-[![build status](http://git.wlash.com/ci/projects/2/status.png?ref=master)](http://git.wlash.com/ci/projects/2?ref=master)
+[![build status](http://git.zino.co/zino/dev-utility/badges/master/build.svg)](http://git.zino.co/zino/dev-utility/commits/master)
 
 Experimental utilities for development.
 
