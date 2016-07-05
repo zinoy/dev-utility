@@ -1,9 +1,5 @@
 image: gulp:latest
 
-before_script:
-  - npm install
-  - bower install --allow-root
-
 stages:
   - build
   - deploy
@@ -15,6 +11,8 @@ cache:
 job1:
   stage: build
   script:
+    - npm install
+    - bower install --allow-root
     - gulp build
   only:
     - master
