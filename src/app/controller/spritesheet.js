@@ -35,8 +35,8 @@ function($scope, $filter, dragDrop) {
         //console.log(data);
         if (data.animations) {
 
-            var prefix = false,
-                ps = 0;
+            var prefix = [],
+                ps = [];
             var tl = [],
                 frame_num = [];
 
@@ -52,44 +52,53 @@ function($scope, $filter, dragDrop) {
                     data.animations[key] = [0, tl.length - 1];
                 } else {
                     var match = key.match(/\d+$/);
-                    if (prefix !== "" && !prefix) {
-                        ps = match[0].length;
-                        prefix = key.replace(/\d+$/, '');
+                    var _p = key.replace(/\d+$/, '');
+                    var idx = prefix.indexOf(_p);
+                    if (idx < 0) {
+                        ps.push(match[0].length);
+                        prefix.push(_p);
+                        frame_num.push([]);
+                        idx = prefix.length - 1;
+                    } else {
+                        var tps = ps[idx];
+                        ps[idx] = match[0].length;
+                        if (tps != ps[idx]) {
+                            ps[idx] = 0;
+                        }
                     }
-                    var tps = ps;
-                    ps = match[0].length;
-                    if (tps != ps) {
-                        ps = 0;
-                    }
-                    frame_num.push(Number(match[0]));
+                    frame_num[idx].push(Number(match[0]));
                 }
             });
-            frame_num.sort(function compareNumbers(a, b) {
-                return a - b;
-            });
+            var anIdx = 0;
+            angular.forEach(frame_num, function(value, index) {
+                value.sort(function compareNumbers(a, b) {
+                    return a - b;
+                });
 
-            var idx = 0;
-            if (frame_num.length > 0) {
-                var it,
-                    ani = [];
-                while ( it = data.animations[prefix + pad(frame_num[idx++], ps)]) {
-                    var id = it[0];
-                    if (id == null) {
-                        id = it.frames[0];
+                var idx = 0;
+                if (value.length > 0) {
+                    var it,
+                        ani = [];
+                    while ( it = data.animations[prefix[index] + pad(value[idx++], ps[index])]) {
+                        var id = it[0];
+                        if (id == null) {
+                            id = it.frames[0];
+                        }
+
+                        tl.push(data.frames[id]);
+                        delete data.animations[prefix[index] + pad(value[idx - 1], ps[index])];
+                        ani.push(anIdx++);
                     }
-
-                    tl.push(data.frames[id]);
-                    delete data.animations[prefix + pad(frame_num[idx - 1], ps)];
-                    ani.push(idx - 1);
+                    data.animations[prefix[index].replace(/[\s\_\-]/g, "")] = {
+                        frames: ani
+                    };
+                } else {
+                    anIdx += tl.length;
+                    data.frames = tl;
                 }
-                data.frames = tl;
-                data.animations[prefix] = {
-                    frames: ani
-                };
-            } else {
-                idx = tl.length + 1;
-                data.frames = tl;
-            }
+            });
+            data.frames = tl;
+
         }
 
         if ($scope.inputDefault && $scope.inputAnimation == "loop") {
