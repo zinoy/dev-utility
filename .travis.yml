@@ -1,25 +1,28 @@
 language: node_js
 node_js:
-  - "0.12"
+- '0.12'
 sudo: true
 addons:
   ssh_known_hosts: 45.79.82.57
 cache:
   directories:
-  - node_modules # NPM packages
+  - node_modules
   - bower_components
 before_install:
-  - sudo apt-get -qq update
-  - sudo apt-get install -y make python gcc g++
+- openssl aes-256-cbc -K $encrypted_87c4d60e3b1c_key -iv $encrypted_87c4d60e3b1c_iv
+  -in deploy_rsa.enc -out deploy_rsa -d
+- sudo apt-get -qq update
+- sudo apt-get install -y make python gcc g++
 install:
-  - npm install -g bower gulp
-  - npm install
-  - bower install
+- npm install -g bower gulp
+- npm install
+- bower install
 script:
-  - gulp build
+- gulp build
 deploy:
   provider: script
   skip_cleanup: true
-  script: rsync -re "ssh -p $LINODE_PORT" --delete-after --exclude="vendor" $TRAVIS_BUILD_DIR/dist/ $LINODE_URI:/var/www/dev-utility
+  script: rsync -re "ssh -p $LINODE_PORT" --delete-after --exclude="vendor" $TRAVIS_BUILD_DIR/dist/
+    $LINODE_URI:/var/www/dev-utility
   on:
     branch: master
