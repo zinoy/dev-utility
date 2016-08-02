@@ -2,7 +2,6 @@ Utilities for Development
 ===
 
 [![Build Status](https://travis-ci.org/zinoy/dev-utility.svg?branch=master)](https://travis-ci.org/zinoy/dev-utility)
-[![build status](http://git.zino.co/zino/dev-utility/badges/master/build.svg)](http://git.zino.co/zino/dev-utility/commits/master)
 
 Experimental utilities for development.
 

@@ -2,9 +2,12 @@ language: node_js
 node_js:
   - "0.12"
 sudo: true
+addons:
+  ssh_known_hosts: 45.79.82.57
 cache:
   directories:
   - node_modules # NPM packages
+  - bower_components
 before_install:
   - sudo apt-get -qq update
   - sudo apt-get install -y make python gcc g++
@@ -12,6 +15,11 @@ install:
   - npm install -g bower gulp
   - npm install
   - bower install
-  - gulp build
 script:
-  - 'rsync -vre "ssh -p $LINODE_PORT" --delete --exclude="vendor" ./dist/ $LINODE_URI:/var/www/dev-utility'
+  - gulp build
+deploy:
+  provider: script
+  skip_cleanup: true
+  script: rsync -re "ssh -p $LINODE_PORT" --delete-after --exclude="vendor" $TRAVIS_BUILD_DIR/dist/ $LINODE_URI:/var/www/dev-utility
+  on:
+    branch: master
