@@ -20,7 +20,6 @@ install:
 script:
 - gulp build
 before_deploy:
-before_deploy:
 - eval "$(ssh-agent -s)"
 - chmod 600 $TRAVIS_BUILD_DIR/deploy_rsa
 - ssh-add $TRAVIS_BUILD_DIR/deploy_rsa
