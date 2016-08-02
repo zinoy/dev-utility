@@ -1,0 +1,17 @@
+language: node_js
+node_js:
+  - "0.12"
+sudo: true
+cache:
+  directories:
+  - node_modules # NPM packages
+before_install:
+  - sudo apt-get -qq update
+  - sudo apt-get install -y make python gcc g++
+install:
+  - npm install -g bower gulp
+  - npm install
+  - bower install
+  - gulp build
+script:
+  - 'rsync -vre "ssh -p $LINODE_PORT" --delete --exclude="vendor" ./dist/ $LINODE_URI:/var/www/dev-utility'
