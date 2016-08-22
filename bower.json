@@ -50,6 +50,9 @@
         "fonts/fontawesome-webfont.woff",
         "fonts/fontawesome-webfont.woff2"
       ]
+    },
+    "codemirror": {
+      "main": ["lib/codemirror.css", "lib/codemirror.js", "mode/javascript/javascript.js"]
     }
   },
   "resolutions": {
