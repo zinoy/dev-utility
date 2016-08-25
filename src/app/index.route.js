@@ -11,11 +11,11 @@
 
         .state('index', {
             abstract: true,
-            url: "/index",
+            url: "/",
             templateUrl: "app/components/common/content.html"
         })
         .state('index.main', {
-            url: "/main",
+            url: "",
             templateUrl: "app/main/main.html",
             data: { pageTitle: 'Home | DEV UTILITY' }
         })
@@ -51,7 +51,7 @@
         })
 ;
 
-    $urlRouterProvider.otherwise('/index/main');
+    $urlRouterProvider.otherwise('/');
 
     $locationProvider.html5Mode(true);
   }
