@@ -9,11 +9,12 @@ cache:
   directories:
   - node_modules
   - bower_components
+  - src/php/vendor
 before_install:
 - openssl aes-256-cbc -K $encrypted_87c4d60e3b1c_key -iv $encrypted_87c4d60e3b1c_iv
   -in deploy_rsa.enc -out deploy_rsa -d
 - sudo apt-get -qq update
-- sudo apt-get install -y make python gcc g++ php5-cli
+- sudo apt-get install -y make python gcc g++ php5-cli php5-curl
 - php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
 - php -r "if (hash_file('SHA384', 'composer-setup.php') === 'e115a8dc7871f15d853148a7fbac7da27d6c0030b848d9b3dc09e2a0388afed865e6a3d6b3c0fad45c48e2b5fc1196ae') { echo 'Installer verified'; } else { echo 'Installer corrupt'; unlink('composer-setup.php'); } echo PHP_EOL;"
 - php composer-setup.php
