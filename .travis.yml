@@ -19,7 +19,7 @@ before_install:
 - php composer-setup.php
 - php -r "unlink('composer-setup.php');"
 install:
-- cd $TRAVIS_BUILD_DIR/dist/php
+- cd $TRAVIS_BUILD_DIR/src/php
 - php composer.phar install
 - cd $TRAVIS_BUILD_DIR
 - npm install -g bower gulp
