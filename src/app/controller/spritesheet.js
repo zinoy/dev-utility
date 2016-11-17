@@ -2,34 +2,49 @@
 
 angular.module('inspinia').controller('SpriteSheetCtrl', ['$scope', '$filter', 'dragDrop',
 function($scope, $filter, dragDrop) {
-
-    $scope.editorOptions = {
+    var vm = this;
+    vm.editorOptions = {
         mode: "application/json",
         lineNumbers: true,
         matchBrackets: true,
         readOnly: true,
         styleActiveLine: true
     };
-    $scope.inputCode = "";
-    $scope.inputClass = "";
-    $scope.inputPrefix = "";
-    $scope.inputDefault = false;
-    $scope.inputAnimation = "loop";
-    $scope.inputCompress = true;
-    $scope.outputCode = "//output here";
+    vm.inputCode = "";
+    vm.inputClass = "";
+    vm.inputPrefix = "";
+    vm.inputDefault = false;
+    vm.inputAniLoop = true;
+    vm.inputAniOnce = false;
+    vm.inputCompress = true;
+    vm.backBtn = false;
+    vm.outputCode = "//output here";
 
-    $scope.iboxTools = {
+    vm.box = {
     };
 
-    $scope.dragDrop = dragDrop;
+    vm.dragDrop = dragDrop;
 
-    $scope.rebuild = function(e) {
+    vm.formatClassname = function() {
+        if (vm.inputClass) {
+            var arr = vm.inputClass.split(' ');
+            if (arr.length > 1) {
+                arr = arr.map(function(str) {
+                    return str.charAt(0).toUpperCase() + str.slice(1);
+                });
+                arr[0] = arr[0].charAt(0).toLowerCase() + arr[0].slice(1);
+                vm.inputClass = arr.join('');
+            }
+        }
+    };
+
+    vm.rebuild = function(e) {
         e.preventDefault();
         var data;
         try {
-            data = JSON.parse($scope.inputCode);
+            data = JSON.parse(vm.inputCode);
         } catch (ex) {
-            $scope.outputCode = "Error: " + ex.message;
+            vm.outputCode = "Error: " + ex.message;
             return;
         }
         //console.log(data);
@@ -101,33 +116,69 @@ function($scope, $filter, dragDrop) {
 
         }
 
-        if ($scope.inputDefault && $scope.inputAnimation == "loop") {
-            data.animations.default = [0, idx - 2];
-        } else if (($scope.inputDefault && $scope.inputAnimation == "once") || data.stop) {
-            var ef = idx - 2;
-            data.animations.default = [0, ef - 1, "stop"];
-            data.animations.stop = [ef];
+        if (!vm.inputDefault && Object.keys(data.animations).length == 1) {
+            data.animations = {};
         }
-        if ($scope.inputClass) {
-            data.name = $scope.inputClass;
+        if (vm.inputAniLoop || vm.inputAniOnce) {
+            angular.forEach(data.animations, function(value, key) {
+                genAni(data.animations, key);
+            });
+            if (Object.keys(data.animations).length === 0) {
+                genAni(data.animations, data.frames.length);
+            }
         }
-        if ($scope.inputPrefix) {
-            if (!/\/$/.test($scope.inputPrefix)) {
-                $scope.inputPrefix += "/";
+        if (vm.inputClass) {
+            data.name = vm.inputClass;
+        }
+        if (vm.inputPrefix) {
+            if (!/\/$/.test(vm.inputPrefix)) {
+                vm.inputPrefix += "/";
             }
             for (var k in data.images) {
-                data.images[k] = $scope.inputPrefix + data.images[k];
+                data.images[k] = vm.inputPrefix + data.images[k];
             }
         }
         delete data.texturepacker;
-        if ($scope.inputCompress) {
-            $scope.outputCode = JSON.stringify(data);
+        if (vm.inputCompress) {
+            vm.outputCode = JSON.stringify(data);
         } else {
-            $scope.outputCode = JSON.stringify(data, null, 4);
+            vm.outputCode = JSON.stringify(data, null, 4);
         }
 
-        $scope.iboxTools.showhide();
+        vm.box.showhide();
+        vm.backBtn = true;
     };
+
+    vm.reset = function() {
+        vm.box.showhide();
+        vm.backBtn = false;
+    };
+
+    function genAni(list, key) {
+        var ef,
+            loopKey,
+            onceKey,
+            stopKey;
+        if (angular.isString(key)) {
+            ef = list[key].frames.length - 1;
+            key = key.toLowerCase().replace(/[\_\-\ ]$/, "");
+            loopKey = key + 'Loop';
+            onceKey = key + 'Once';
+            stopKey = key + 'Stop';
+        } else if (angular.isNumber(key)) {
+            ef = key - 1;
+            loopKey = 'loop';
+            onceKey = 'once';
+            stopKey = 'stop';
+        }
+        if (vm.inputAniLoop) {
+            list[loopKey] = [0, ef];
+        }
+        if (vm.inputAniOnce) {
+            list[onceKey] = [0, ef - 1, stopKey];
+            list[stopKey] = [ef];
+        }
+    }
 
     function isAdvancedUpload() {
         var div = document.createElement('div');

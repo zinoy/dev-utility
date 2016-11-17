@@ -87,8 +87,8 @@ angular.module('inspinia')
                 };
             },
             link: function (scope, element, attrs) {
-                var i = scope.control || {};
-                i.showhide = scope.showhide;
+                var vm = scope.control || {};
+                vm.showhide = scope.showhide;
             }
         };
     })
@@ -113,7 +113,7 @@ angular.module('inspinia')
                                 var reader = new FileReader();
                                 reader.onload = function(e) {
                                     if(attrs.ngModel){
-                                        scope[attrs.ngModel] = this.result;
+                                        scope.$eval(attrs.ngModel + "='" + this.result + "'");
                                         scope.$apply();
                                     }
                                 };
