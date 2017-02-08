@@ -56,60 +56,57 @@ function($scope, $filter, dragDrop) {
                 frame_num = [];
 
             angular.forEach(data.animations, function(value, key) {
-                tl = [];
-                if (!$.isArray(value)) {
+                if (!angular.isArray(value)) {
                     value = value.frames;
                 }
+                var match = key.match(/\d+$/);
+                var _p = key.replace(/\d+$/, '');
+                var idx = prefix.indexOf(_p);
+                if (idx < 0) {
+                    ps.push( match ? match[0].length : 0);
+                    prefix.push(_p);
+                    frame_num.push([]);
+                    idx = prefix.length - 1;
+                } else if (match) {
+                    var tps = ps[idx];
+                    ps[idx] = match[0].length;
+                    if (tps != ps[idx]) {
+                        ps[idx] = 0;
+                    }
+                }
                 if (value.length > 1) {
+                    var startIdx = tl.length;
                     for (var i = 0; i < value.length; i++) {
                         tl.push(data.frames[value[i]]);
                     }
-                    data.animations[key] = [0, tl.length - 1];
+                    data.animations[key] = [startIdx, startIdx + value.length - 1];
                 } else {
-                    var match = key.match(/\d+$/);
-                    var _p = key.replace(/\d+$/, '');
-                    var idx = prefix.indexOf(_p);
-                    if (idx < 0) {
-                        ps.push(match[0].length);
-                        prefix.push(_p);
-                        frame_num.push([]);
-                        idx = prefix.length - 1;
-                    } else {
-                        var tps = ps[idx];
-                        ps[idx] = match[0].length;
-                        if (tps != ps[idx]) {
-                            ps[idx] = 0;
-                        }
-                    }
                     frame_num[idx].push(Number(match[0]));
                 }
             });
-            var anIdx = 0;
-            angular.forEach(frame_num, function(value, index) {
-                value.sort(function compareNumbers(a, b) {
-                    return a - b;
-                });
+            var anIdx = tl.length;
+            angular.forEach(frame_num, function(value, animateIdx) {
+                if ($.isArray(value) && value.length > 0) {
+                    value.sort(function compareNumbers(a, b) {
+                        return a - b;
+                    });
 
-                var idx = 0;
-                if (value.length > 0) {
+                    var frameIdx = 0;
                     var it,
                         ani = [];
-                    while ( it = data.animations[prefix[index] + pad(value[idx++], ps[index])]) {
+                    while ( it = data.animations[prefix[animateIdx] + pad(value[frameIdx++], ps[animateIdx])]) {
                         var id = it[0];
                         if (id == null) {
                             id = it.frames[0];
                         }
 
                         tl.push(data.frames[id]);
-                        delete data.animations[prefix[index] + pad(value[idx - 1], ps[index])];
+                        delete data.animations[prefix[animateIdx] + pad(value[frameIdx - 1], ps[animateIdx])];
                         ani.push(anIdx++);
                     }
-                    data.animations[prefix[index].replace(/[\s\_\-]/g, "")] = {
+                    data.animations[formatString(prefix[animateIdx])] = {
                         frames: ani
                     };
-                } else {
-                    anIdx += tl.length;
-                    data.frames = tl;
                 }
             });
             data.frames = tl;
@@ -155,29 +152,37 @@ function($scope, $filter, dragDrop) {
     };
 
     function genAni(list, key) {
-        var ef,
+        var startFrame = 0,
+            endFrame,
             loopKey,
             onceKey,
             stopKey;
         if (angular.isString(key)) {
-            ef = list[key].frames.length - 1;
-            key = key.toLowerCase().replace(/[\_\-\ ]$/, "");
+            startFrame = list[key].frames ? list[key].frames[0] : list[key][0];
+            endFrame = list[key].frames ? startFrame + list[key].frames.length - 1 : list[key][list[key].length - 1];
+            key = formatString(key);
             loopKey = key + 'Loop';
             onceKey = key + 'Once';
             stopKey = key + 'Stop';
         } else if (angular.isNumber(key)) {
-            ef = key - 1;
+            endFrame = key - 1;
             loopKey = 'loop';
             onceKey = 'once';
             stopKey = 'stop';
         }
         if (vm.inputAniLoop) {
-            list[loopKey] = [0, ef];
+            list[loopKey] = [startFrame, endFrame];
         }
         if (vm.inputAniOnce) {
-            list[onceKey] = [0, ef - 1, stopKey];
-            list[stopKey] = [ef];
+            list[onceKey] = [startFrame, endFrame - 1, stopKey];
+            list[stopKey] = [endFrame];
         }
+    }
+
+    function formatString(str) {
+        return str.replace(/[\s\_\-]+\w/g, function(l) {
+            return l.replace(/[\s\_\-]+/g, "").toUpperCase();
+        });
     }
 
     function isAdvancedUpload() {
