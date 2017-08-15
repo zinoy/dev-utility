@@ -21,8 +21,49 @@
               <label for="ipt_class" class="col-sm-2 control-label">Class Name</label>
               <div class="col-sm-10">
                 <input type="text" id="ipt_class" name="cn" class="form-control" autocomplete="false" ng-model="sprite.inputClass" ng-trim="true" ng-pattern="/^[a-zA-Z]\w+(\ [a-zA-Z]\w*)*$/" ng-change="sprite.formatClassname()" />
-                <span class="help-block" ng-if="form.cn.$valid"> Include <a href="http://git.wlash.com/snippets/3" target="_blank">animate.js <i class="fa fa-external-link"></i></a> file in your project, and initialize object using <code>genAni(jsonObj);</code> when JSON file has been loaded. Then, you may create Sprite instance with <code>var sprite = new ani.{{ sprite.inputClass || 'className'}}();</code>. </span>
-                <span class="help-block" ng-if="!form.cn.$valid"> <i class="fa fa-exclamation-triangle"></i> Class name must start with letter and at least 2 characters length. Only letters and numbers allowed. </span>
+                <span class="help-block" ng-if="form.cn.$valid"> Include <a href="http://git.hylinkers.com/snippets/5" target="_blank">animate.v2.js <i class="fa fa-external-link"></i></a> file in your project to create Sprite object faster (read <a ng-click="sprite.isCollapsed = !sprite.isCollapsed">more</a>). </span>
+                <div uib-collapse="sprite.isCollapsed">
+                  <div class="well">
+                    <p><b>genAni</b>(prefix, loader) <abbr class="text-muted" title>function</abbr></p>
+                    <h5>Parameters:</h5>
+                    <ul>
+                      <li>
+                        <p>prefix <abbr class="text-muted" title>String</abbr></p>
+                        <p><small>Pathname where json files located</small></p>
+                      </li>
+                      <li>
+                        <p>loader <abbr class="text-muted" title="LoadQueue is a load manager, which can preload either a single file, or queue of files.">LoadQueue</abbr></p>
+                        <p><small>LoadQueue from PreloadJS</small></p>
+                      </li>
+                    </ul>
+                    <p>This function should be called only ONCE.</p>
+                    <hr />
+                    <p><b>getAni</b>(name, callback) <abbr class="text-muted" title="Displays a frame or sequence of frames from a SpriteSheet instance.">Sprite</abbr></p>
+                    <h5>Parameters:</h5>
+                    <ul>
+                      <li>
+                        <p>name <abbr class="text-muted" title>String</abbr></p>
+                        <p><small>Name of loaded json file</small></p>
+                      </li>
+                      <li>
+                        <p>callback <abbr class="text-muted" title>function</abbr></p>
+                        <p><small>Callback function when object created</small></p>
+                      </li>
+                    </ul>
+                    <hr />
+                    <h4>Example</h4>
+                    <ol>
+                      <li>
+                        <p>Initial helper function (recommend call this function when all assets load completed):</p>
+                        <pre><code>var getAni = genAni('img/sheet/', queue);</code></pre>
+                      </li>
+                      <li>
+                        <p>Create a Sprite object:</p>
+                        <pre><code>var mainObj = getAni('main');</code></pre>
+                      </li>
+                    </ol>
+                  </div>
+                </div>
               </div>
             </div>
             <div class="hr-line-dashed"></div>

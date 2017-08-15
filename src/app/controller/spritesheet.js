@@ -19,6 +19,8 @@ function($scope, $filter, dragDrop) {
     vm.inputCompress = true;
     vm.backBtn = false;
     vm.outputCode = "//output here";
+    
+    vm.isCollapsed = true;
 
     vm.box = {
     };
