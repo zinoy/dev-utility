@@ -4,7 +4,7 @@ language: node_js
 node_js:
 - '0.12'
 addons:
-  ssh_known_hosts: "lin.zino.co"
+  ssh_known_hosts: "api.zino.co"
 cache:
   directories:
   - node_modules
@@ -36,6 +36,6 @@ deploy:
   provider: script
   skip_cleanup: true
   script: rsync -re "ssh -p $LINODE_PORT" --delete-after $TRAVIS_BUILD_DIR/dist/
-    $LINODE_URI:/var/www/dev-utility
+    $LINODE_URI:/usr/share/nginx/dev-utility
   on:
     branch: master
